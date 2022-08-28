@@ -7,7 +7,7 @@ type DataForm = {
   name: string
 }
 
-export function ProjectForm() {
+export const ProjectForm = () => {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
