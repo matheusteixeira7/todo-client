@@ -71,7 +71,7 @@ export function AuthProvider({ children }) {
 
     setUser(user);
 
-    Router.push("/dashboard");
+    Router.push("/projetos");
   }
 
   return (

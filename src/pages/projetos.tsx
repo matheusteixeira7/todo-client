@@ -9,8 +9,8 @@ import { AuthContext } from '../contexts/AuthContext'
 import { getAPIClient } from '../services/axios'
 import { ProjectForm } from '../components'
 
-const navigation = ['Dashboard', 'Projetos', 'Tarefas']
-const profile = ['Your Profile', 'Settings']
+const navigation = ['Projetos', 'Tarefas']
+const profile = ['Seu perfil', 'Configurações']
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -19,14 +19,10 @@ function classNames(...classes) {
 export default function Dashboard() {
   const { user } = useContext(AuthContext)
 
-  // useEffect(() => {
-  //   api.get('/users');
-  // }, [])
-
   return (
     <div>
       <Head>
-        <title>Dashboard</title>
+        <title>Projetos</title>
       </Head>
 
       <Disclosure as="nav" className="bg-gray-800">
@@ -121,7 +117,7 @@ export default function Dashboard() {
                                   href="#"
                                   className='block px-4 py-2 text-sm text-gray-700'
                                 >
-                                  Sign out
+                                  Sair
                                 </a>
                               </Menu.Item>
                             </Menu.Items>
@@ -199,7 +195,7 @@ export default function Dashboard() {
                     href="#"
                     className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
                   >
-                    Sign out
+                    Sair
                   </a>
                 </div>
               </div>
@@ -210,7 +206,7 @@ export default function Dashboard() {
 
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Projetos</h1>
         </div>
       </header>
       <main>
