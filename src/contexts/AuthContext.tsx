@@ -9,7 +9,6 @@ type User = {
   id: string;
   name: string;
   email: string;
-  password: string;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -34,13 +33,12 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const { 'nextauth.token': token } = parseCookies()
+    const { 'nextauth.user': userData } = parseCookies()
 
     if (token) {
-      // recoverUserInformation().then(response => {
-      //   setUser(response.user)
-      // })
-      console.log(token);
+      setUser(JSON.parse(userData))
     }
+
   }, [])
 
   async function signIn({ email, password }: SignInData) {
@@ -60,6 +58,12 @@ export function AuthProvider({ children }) {
     }
 
     setCookie(undefined, "nextauth.token", token, {
+      maxAge: 60 * 60 * 5, // 5 hours
+    });
+
+    const parsedUser = JSON.stringify(user);
+
+    setCookie(undefined, "nextauth.user", parsedUser, {
       maxAge: 60 * 60 * 5, // 5 hours
     });
 
