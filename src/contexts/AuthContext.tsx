@@ -60,7 +60,7 @@ export function AuthProvider({ children }) {
     }
 
     setCookie(undefined, "nextauth.token", token, {
-      maxAge: 60 * 60 * 1, // 1 hour
+      maxAge: 60 * 60 * 5, // 5 hours
     });
 
     api.defaults.headers["Authorization"] = `Bearer ${token}`;

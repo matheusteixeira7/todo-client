@@ -1,14 +1,15 @@
-import { Fragment, useContext, useEffect } from 'react'
-import Head from 'next/head'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
-import { parseCookies } from 'nookies'
-import { AuthContext } from '../contexts/AuthContext'
-import { api } from '../services/api'
+import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { Fragment, useContext, useEffect } from 'react'
 import { GetServerSideProps } from 'next'
-import { getAPIClient } from '../services/axios'
+import { parseCookies } from 'nookies'
+import Head from 'next/head'
 
-const navigation = ['Dashboard', 'Team', 'Projects', 'Calendar', 'Reports']
+import { AuthContext } from '../contexts/AuthContext'
+import { getAPIClient } from '../services/axios'
+import { ProjectForm } from '../components'
+
+const navigation = ['Dashboard', 'Projetos', 'Tarefas']
 const profile = ['Your Profile', 'Settings']
 
 function classNames(...classes) {
@@ -216,7 +217,7 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           {/* Replace with your content */}
           <div className="px-4 py-6 sm:px-0">
-            <div className="border-4 border-dashed border-gray-200 rounded-lg h-96" />
+            <ProjectForm />
           </div>
           {/* /End replace */}
         </div>
