@@ -105,7 +105,7 @@ export default function Home() {
               Entrar
             </button>
 
-            
+
           </div>
         </form>
       </div>
@@ -120,7 +120,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (token) {
     return {
       redirect: {
-        destination: '/dashboard',
+        destination: '/projetos',
         permanent: false,
       }
     }

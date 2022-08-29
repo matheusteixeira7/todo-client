@@ -1,13 +1,14 @@
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Fragment, useContext, useEffect } from 'react'
+import { Fragment, useContext, useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
 import Head from 'next/head'
 
 import { AuthContext } from '../contexts/AuthContext'
 import { getAPIClient } from '../services/axios'
-import { ProjectForm } from '../components'
+import { ProjectForm, ProjectsList } from '../components'
+import { api } from '../services/api'
 
 const navigation = ['Projetos', 'Tarefas']
 const profile = ['Seu perfil', 'Configurações']
@@ -16,8 +17,27 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+type Project = {
+  id: string
+  name: string
+  userId: string
+  createdAt: Date
+  updatedAt: Date
+}
+
 export default function Dashboard() {
   const { user } = useContext(AuthContext)
+  const [projects, setProjects] = useState<Project[]>([])
+  const [refreshData, setRefreshData] = useState(false)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await api.get<Project[]>(`http://localhost:8000/project`)
+      setProjects(data)
+    }
+
+    fetchData()
+  }, [refreshData])
 
   return (
     <div>
@@ -213,7 +233,9 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           {/* Replace with your content */}
           <div className="px-4 py-6 sm:px-0">
-            <ProjectForm />
+            <ProjectForm updateData={() => setRefreshData(!refreshData)} />
+            <div className="mb-8" />
+            <ProjectsList projects={projects} />
           </div>
           {/* /End replace */}
         </div>

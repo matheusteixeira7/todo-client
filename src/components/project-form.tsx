@@ -7,14 +7,18 @@ type DataForm = {
   name: string
 }
 
-export const ProjectForm = () => {
+type Props = {
+  updateData: () => void
+}
+
+export const ProjectForm = ({ updateData }: Props) => {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [name, setName] = useState('')
   const { user } = useContext(AuthContext)
 
-  function handleChange(event) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setName(event.target.value)
   }
 
@@ -33,6 +37,7 @@ export const ProjectForm = () => {
       await api.post('/project', sendData)
       setName('')
       setSuccess(`Projeto ${data.name} criado com sucesso!`)
+      updateData()
     } catch (error) {
       setError(error.message)
     }
