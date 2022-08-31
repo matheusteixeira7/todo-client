@@ -1,4 +1,4 @@
-# Shiny Paws API
+# Todo Client
 
 ![Preview-Screens](http://store-images.microsoft.com/image/apps.22333.9007199266251942.d218f486-6f90-4e8a-864a-410aa7d8b05d.a15d73d1-39a4-4821-ac98-41b2da32bc36)
 
@@ -6,11 +6,11 @@
 
 _“O planejamento não é uma tentativa de predizer o que vai acontecer. O planejamento é um instrumento para raciocinar agora, sobre que trabalhos e ações serão necessários hoje, para merecermos um futuro. O produto final do planejamento não é a informação: é sempre o trabalho.” Peter Drucker._
 
-Este APP foi desenvolvido para colocar em prática meus conhecimentos com React.js e Next.js. Neste app pude colocar em práticas de _component communication_, _dynamic pages_, _tailwind css_, _fluxo de autenticação e validação de usuário com JWT_, _integração de front-end com back-end,e muito mais_
+Este APP foi desenvolvido para colocar em prática meus conhecimentos com React.js e Next.js. Neste app pude colocar em prática conhecimentos de _component communication_, _dynamic pages_, _tailwind css_, _fluxo de autenticação e validação de usuário com JWT_, _integração de front-end com back-end, e muito mais_
 
 ## Por quê?
 
-Este projeto faz parte do meu portfólio pessoal. Ficarei feliz se você der algum feedback sobre o projeto, código, arquitetura ou qualquer outra coisa que você quiser falar para me tornar um melhor engenheiro de software.
+Este projeto faz parte do meu portfólio pessoal. Ficarei feliz se você der algum feedback sobre o projeto, código, arquitetura ou qualquer outra coisa que você quiser falar.
 
 Me mande um e-mail: matheusteixeira@devnine.tech
 
@@ -22,12 +22,12 @@ It's free!
 
 ## Funcionalidades
 
-- User
+- Users
 
   - criar um novo usuário para o app;
   - fazer login via jwt no app;
 
-- Project
+- Projects
 
   - criar um novo projeto para o app;
   - listar todos os projetos do usuário;
