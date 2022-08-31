@@ -1,6 +1,5 @@
 import Modal from "react-modal";
 import { Fragment, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 
 import { api } from "../../services";
 import { DeleteTaskModal, EditTaskModal } from ".";
