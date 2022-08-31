@@ -6,8 +6,9 @@ import { parseCookies } from "nookies";
 import Head from "next/head";
 
 import { getAPIClient } from "../services/axios";
+import Link from "next/link";
 
-const navigation = ["Projetos", "Tarefas"];
+const navigation = ["Projetos"];
 const profile = ["Seu perfil", "Configurações"];
 
 function classNames(...classes) {
@@ -28,36 +29,13 @@ export function DashboardLayout({ children, user, title }) {
               <div className="flex h-16 items-center justify-between">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <img
-                      className="h-8 w-8"
-                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                      alt="Workflow"
-                    />
-                  </div>
-                  <div className="hidden md:block">
-                    <div className="ml-10 flex items-baseline space-x-4">
-                      {navigation.map((item, itemIdx) =>
-                        itemIdx === 0 ? (
-                          <Fragment key={item}>
-                            {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
-                            <a
-                              href="#"
-                              className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
-                            >
-                              {item}
-                            </a>
-                          </Fragment>
-                        ) : (
-                          <a
-                            key={item}
-                            href="#"
-                            className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                          >
-                            {item}
-                          </a>
-                        )
-                      )}
-                    </div>
+                    <Link href="/">
+                      <img
+                        className="h-8 w-8 cursor-pointer"
+                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                        alt="Workflow"
+                      />
+                    </Link>
                   </div>
                 </div>
                 <div className="hidden md:block">
@@ -141,29 +119,6 @@ export function DashboardLayout({ children, user, title }) {
             </div>
 
             <Disclosure.Panel className="md:hidden">
-              <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-                {navigation.map((item, itemIdx) =>
-                  itemIdx === 0 ? (
-                    <Fragment key={item}>
-                      {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
-                      <a
-                        href="#"
-                        className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
-                      >
-                        {item}
-                      </a>
-                    </Fragment>
-                  ) : (
-                    <a
-                      key={item}
-                      href="#"
-                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                    >
-                      {item}
-                    </a>
-                  )
-                )}
-              </div>
               <div className="border-t border-gray-700 pt-4 pb-3">
                 <div className="flex items-center px-5">
                   <div className="flex-shrink-0">
