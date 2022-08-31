@@ -7,12 +7,9 @@ import Modal from "react-modal";
 import "react-datepicker/dist/react-datepicker.css";
 import Router from "next/router";
 
-import {
-  DashboardLayout,
-  DeleteProjectModal,
-  PrimaryButton,
-} from "../../components";
-import { AuthContext } from "../../contexts/AuthContext";
+import { DashboardLayout, PrimaryButton } from "../../components/shared";
+import { DeleteProjectModal } from "../../components/projects";
+import { AuthContext } from "../../contexts";
 import { api, getAPIClient } from "../../services";
 import { AddNewTaskModal, TasksTable } from "../../components/tasks";
 

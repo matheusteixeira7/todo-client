@@ -4,11 +4,10 @@ import { Fragment } from "react";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 import Head from "next/head";
-
-import { getAPIClient } from "../services/axios";
 import Link from "next/link";
 
-const navigation = ["Projetos"];
+import { getAPIClient } from "../../services";
+
 const profile = ["Seu perfil", "Configurações"];
 
 function classNames(...classes) {

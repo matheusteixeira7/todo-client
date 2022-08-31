@@ -2,7 +2,8 @@ import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 import { useContext, useEffect, useState } from "react";
 
-import { ProjectForm, ProjectsList, DashboardLayout } from "../components";
+import { ProjectForm, ProjectsList } from "../components/projects";
+import { DashboardLayout } from "../components/shared";
 import { AuthContext } from "../contexts";
 import { api, getAPIClient } from "../services/";
 

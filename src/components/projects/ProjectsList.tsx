@@ -2,7 +2,7 @@ import { RiShareForwardLine } from "react-icons/ri";
 import { useContext } from "react";
 import Link from "next/link";
 
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../../contexts";
 
 type Project = {
   id: string;
