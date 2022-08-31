@@ -2,7 +2,7 @@ import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { GetServerSideProps } from "next";
-import { parseCookies } from "nookies";
+import { parseCookies, destroyCookie } from "nookies";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -15,6 +15,11 @@ function classNames(...classes) {
 }
 
 export function DashboardLayout({ children, user, title }) {
+  function destroyToken() {
+    destroyCookie(undefined, "nextauth.token");
+    destroyCookie(undefined, "nextauth.user");
+  }
+
   return (
     <div>
       <Head>
@@ -89,7 +94,8 @@ export function DashboardLayout({ children, user, title }) {
                               ))}
                               <Menu.Item>
                                 <a
-                                  href="#"
+                                  href="/"
+                                  onClick={() => destroyToken()}
                                   className="block px-4 py-2 text-sm text-gray-700"
                                 >
                                   Sair
