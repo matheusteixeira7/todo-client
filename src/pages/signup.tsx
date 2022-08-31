@@ -1,11 +1,12 @@
 import Head from "next/head";
+import Router from "next/router";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 
-import { getAPIClient } from "../services";
+import { api, getAPIClient } from "../services";
 import { AuthContext } from "../contexts";
 
 export default function Home() {
@@ -13,9 +14,10 @@ export default function Home() {
   const { signIn } = useContext(AuthContext);
   const [error, setError] = useState("");
 
-  async function handleSignIn(data) {
+  async function handleSignup(data) {
     try {
-      await signIn(data);
+      await api.post("/users", data);
+      Router.push("/");
     } catch (error) {
       setError(error.message);
     }
@@ -35,12 +37,27 @@ export default function Home() {
             alt="Workflow"
           />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Faça login com sua conta
+            Crie sua conta
           </h2>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit(handleSignIn)}>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit(handleSignup)}>
           <input type="hidden" name="remember" defaultValue="true" />
           <div className="-space-y-px rounded-md shadow-sm">
+            <div>
+              <label htmlFor="name" className="sr-only">
+                Nome completo
+              </label>
+              <input
+                {...register("name")}
+                id="name"
+                name="name"
+                type="text"
+                required
+                className="focus:outline-none relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                placeholder="Nome completo"
+              />
+            </div>
+
             <div>
               <label htmlFor="email-address" className="sr-only">
                 Email address
@@ -95,10 +112,10 @@ export default function Home() {
 
             <div className="text-sm">
               <a
-                href="/signup"
+                href="/"
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
-                Não possui uma conta? Crie
+                Já possui uma conta? Entre
               </a>
             </div>
           </div>
@@ -114,7 +131,7 @@ export default function Home() {
                   aria-hidden="true"
                 />
               </span>
-              Entrar
+              Criar
             </button>
           </div>
         </form>
