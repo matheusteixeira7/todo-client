@@ -1,4 +1,7 @@
-import { Fragment } from "react";
+import Modal from "react-modal";
+import { Fragment, useEffect, useState } from "react";
+import { DeleteTaskModal } from "./";
+import { api } from "../services";
 
 type Task = {
   id: string;
@@ -11,65 +14,102 @@ type Task = {
   updatedAt: Date;
 };
 
-export const TasksTable = ({ tasks }) => {
+export const TasksTable = ({ project, fetch }) => {
+  const [isDeleteTaskModalOpen, setIsDeleteTaskModalOpen] = useState(false);
+  const [fetchData, setFetchData] = useState(false);
+  const [selectedTask, setSelectedTask] = useState("");
+  const [tasks, setTask] = useState([]);
+
+  const filteredTasks = tasks.filter(
+    (task: Task) => task.projectId === project.id
+  );
+
+  function handleCloseDeleteTaskModal() {
+    setIsDeleteTaskModalOpen(false);
+  }
+
+  function handleOpenDeleteTaskModal(id: string) {
+    setIsDeleteTaskModalOpen(true);
+    setSelectedTask(id);
+  }
+
+  async function handleDeleteTask() {
+    try {
+      await api.delete(`/task/${selectedTask}`);
+      setFetchData(!fetchData);
+      handleCloseDeleteTaskModal();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    const fetchTask = async () => {
+      const { data } = await api.get(`/task`);
+      setTask(data);
+    };
+
+    fetchTask();
+  }, [fetchData, fetch]);
+
   return (
     <div className="flex flex-col">
       <div className="overflow-x-auto">
-        <div className="p-1.5 w-full inline-block align-middle">
-          <div className="overflow-hidden border rounded-lg overflow-x-auto">
+        <div className="inline-block w-full p-1.5 align-middle">
+          <div className="overflow-hidden overflow-x-auto rounded-lg border">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                    className="px-6 py-3 text-left text-xs font-bold uppercase text-gray-500 "
                   >
                     Tarefa
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                    className="px-6 py-3 text-left text-xs font-bold uppercase text-gray-500 "
                   >
                     Responsável
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                    className="px-6 py-3 text-left text-xs font-bold uppercase text-gray-500 "
                   >
                     Data limite
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                    className="px-6 py-3 text-left text-xs font-bold uppercase text-gray-500 "
                   >
                     Status
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
+                    className="px-6 py-3 text-right text-xs font-bold uppercase text-gray-500 "
                   >
                     Editar
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
+                    className="px-6 py-3 text-right text-xs font-bold uppercase text-gray-500"
                   >
                     Deletar
                   </th>
                 </tr>
               </thead>
-              {tasks.reverse().map((task: Task) => {
+              {filteredTasks.reverse().map((task: Task) => {
                 return (
                   <Fragment key={task.id}>
                     <tbody className="divide-y divide-gray-200">
                       <tr>
-                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800">
                           {task.name}
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800">
                           {task.responsible}
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800">
                           {new Date(task.finishDate).toLocaleDateString(
                             "pt-BR",
                             {
@@ -79,10 +119,10 @@ export const TasksTable = ({ tasks }) => {
                             }
                           )}
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800">
                           {task.status}
                         </td>
-                        <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                        <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                           <a
                             className="text-green-500 hover:text-green-700"
                             href="#"
@@ -90,7 +130,10 @@ export const TasksTable = ({ tasks }) => {
                             Editar
                           </a>
                         </td>
-                        <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                        <td
+                          className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium"
+                          onClick={() => handleOpenDeleteTaskModal(task.id)}
+                        >
                           <a
                             className="text-red-500 hover:text-red-700"
                             href="#"
@@ -107,6 +150,19 @@ export const TasksTable = ({ tasks }) => {
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={isDeleteTaskModalOpen}
+        onRequestClose={handleCloseDeleteTaskModal}
+        overlayClassName="bg-gray-500 bg-opacity-75 fixed inset-0 z-10"
+        className="absolute bottom-0 w-full rounded-md bg-white p-4 md:bottom-auto md:top-1/2 md:left-1/2 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2 md:transform"
+        contentLabel="Delete Task Modal"
+      >
+        <DeleteTaskModal
+          closeModal={handleCloseDeleteTaskModal}
+          deleteTask={handleDeleteTask}
+        />
+      </Modal>
     </div>
-  )
-}
+  );
+};

@@ -4,16 +4,18 @@ import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillDelete, AiFillEdit, AiFillSave } from "react-icons/ai";
 import Modal from "react-modal";
+import "react-datepicker/dist/react-datepicker.css";
 import Router from "next/router";
 
-import DashboardLayout from "../components/Dashboard";
+import {
+  DashboardLayout,
+  DeleteProjectModal,
+  AddNewTaskModal,
+  PrimaryButton,
+  TasksTable,
+} from "../components";
 import { AuthContext } from "../contexts/AuthContext";
-import { api } from "../services/api";
-import { getAPIClient } from "../services/axios";
-import { PrimaryButton } from "../components/PrimaryButton";
-import { TasksTable } from "../components/TasksTable";
-import { DeleteProjectModal } from "../components/DeleteProjectModal";
-import { AddNewTaskModal } from "../components/AddNewTaskModal";
+import { api, getAPIClient } from "../services";
 
 Modal.setAppElement("#__next");
 
@@ -44,23 +46,19 @@ type Task = {
   updatedAt: Date;
 };
 
-const Asd = ({ parsedProject, parsedTask }) => {
+const Asd = ({ parsedProject }) => {
   const [disable, setDisable] = useState(true);
   const [error, setError] = useState("");
   const [fetchData, setFetchData] = useState(false);
+  const [fetchTasks, setFetchTasks] = useState(false);
   const [isAddNewTaskModalOpen, setIsAddNewTaskModalOpen] = useState(false);
   const [isDeleteProjectModalOpen, setIsDeleteProjectModalOpen] =
     useState(false);
   const [name, setName] = useState("");
   const [project, setProject] = useState(parsedProject);
   const [success, setSuccess] = useState("");
-  const [task, setTask] = useState(parsedTask);
   const { register, handleSubmit } = useForm();
   const { user } = useContext(AuthContext);
-
-  const filteredTasks = task.filter(
-    (task: Task) => task.projectId === project.id
-  );
 
   useEffect(() => {
     const fetch = async () => {
@@ -143,7 +141,7 @@ const Asd = ({ parsedProject, parsedTask }) => {
     try {
       await api.post("/task", sendData);
       setSuccess(`Tarefa ${data.name} adicionada com sucesso!`);
-      setFetchData(!fetchData);
+      setFetchTasks(!fetchTasks);
       handleCloseAddNewTaskModal();
     } catch (error) {
       setError(error.message);
@@ -158,7 +156,7 @@ const Asd = ({ parsedProject, parsedTask }) => {
           title="Adicionar nova tarefa"
         />
         <h3 className="">Tarefas:</h3>
-        <TasksTable tasks={filteredTasks} />
+        <TasksTable project={project} fetch={fetchTasks} />
       </div>
 
       <form onSubmit={handleSubmit(handleEditProjectSubmit)} className="mt-8">
@@ -290,15 +288,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   const projectData = await apiClient.get(`/project/${id}`);
-  const taskData = await apiClient.get(`/task`);
-
   const parsedProject = JSON.parse(JSON.stringify(projectData.data));
-  const parsedTask = JSON.parse(JSON.stringify(taskData.data));
 
   return {
     props: {
       parsedProject,
-      parsedTask,
     },
   };
 };

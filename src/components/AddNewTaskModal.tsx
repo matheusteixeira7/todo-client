@@ -1,5 +1,9 @@
 import { useForm } from "react-hook-form";
 import { AiOutlineClose, AiOutlineFileAdd } from "react-icons/ai";
+import Datepicker, { registerLocale } from "react-datepicker";
+import { useState } from "react";
+import ptBR from "date-fns/locale/pt-BR";
+registerLocale("pt-BR", ptBR);
 
 type Task = {
   id: string;
@@ -14,9 +18,18 @@ type Task = {
 
 export const AddNewTaskModal = ({ closeModal, addNewTask, projectId }) => {
   const { register, handleSubmit } = useForm();
+  const [startDate, setStartDate] = useState(new Date());
 
   async function handleAddNewTask(data: Task) {
-    await addNewTask(data);
+    const sendData = {
+      name: data.name,
+      projectId: projectId,
+      responsible: data.responsible,
+      status: data.status,
+      finishDate: startDate,
+    };
+
+    await addNewTask(sendData);
     closeModal();
   }
 
@@ -92,20 +105,22 @@ export const AddNewTaskModal = ({ closeModal, addNewTask, projectId }) => {
           >
             Data limite
           </label>
-          <input
+          <Datepicker
             {...register("finishDate")}
             id="finishDate"
-            name="statfinishDateus"
-            type="text"
-            required
-            className="focus:outline-none relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            placeholder="Data limite"
+            name="finishDate"
+            className="h-full w-full rounded-md border border-transparent border-gray-300 bg-transparent px-3 py-2 text-gray-500 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            placeholderText="Data limite"
+            selected={startDate}
+            onChange={(date: Date) => setStartDate(date)}
+            locale="pt-BR"
+            dateFormat="dd/MM/yyyy"
           />
         </div>
 
         <div className="mt-4 md:flex md:items-center md:justify-between">
-          <div
-            onClick={closeModal}
+          <button
+            type="submit"
             className={`focus:outline-none group relative mb-4 flex w-full cursor-pointer justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 md:mb-0`}
           >
             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -115,10 +130,10 @@ export const AddNewTaskModal = ({ closeModal, addNewTask, projectId }) => {
               />
             </span>
             Criar
-          </div>
+          </button>
 
           <div
-            onClick={() => handleSubmit}
+            onClick={closeModal}
             className={`focus:outline-none group relative flex w-full cursor-pointer justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 md:ml-4`}
           >
             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
