@@ -53,7 +53,6 @@ export function DashboardLayout({ children, user, title }) {
                               <span className="sr-only">Open user menu</span>
                               <img
                                 className="h-8 w-8 rounded-full"
-                                // src={user?.avatar_url}
                                 src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                                 alt=""
                               />
@@ -123,7 +122,6 @@ export function DashboardLayout({ children, user, title }) {
                   <div className="flex-shrink-0">
                     <img
                       className="h-10 w-10 rounded-full"
-                      // src={user?.avatar_url}
                       src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                       alt=""
                     />
@@ -179,7 +177,6 @@ export function DashboardLayout({ children, user, title }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const apiClient = getAPIClient(ctx);
   const { ["nextauth.token"]: token } = parseCookies(ctx);
 
   if (!token) {
@@ -190,8 +187,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
-
-  // await apiClient.get('/users')
 
   return {
     props: {},
