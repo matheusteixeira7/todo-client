@@ -1,5 +1,6 @@
 import Modal from "react-modal";
 import { Fragment, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 import { api } from "../../services";
 import { DeleteTaskModal, EditTaskModal } from ".";
@@ -22,10 +23,35 @@ export const TasksTable = ({ project, fetch }) => {
   const [selectedTask, setSelectedTask] = useState("");
   const [tasks, setTasks] = useState([]);
   const [editTask, setEditTask] = useState();
+  const [filteredTask, setFilteredTask] = useState("Status");
 
-  const filteredTasks = tasks.filter(
-    (task: Task) => task.projectId === project.id
+  const allTasks = tasks.filter((task: Task) => task.projectId === project.id);
+
+  const doneTasks = tasks.filter(
+    (task: Task) => task.projectId === project.id && task.status === "Concluída"
   );
+
+  const pendingTasks = tasks.filter(
+    (task: Task) => task.projectId === project.id && task.status === "Pendente"
+  );
+
+  const overdueTasks = tasks.filter(
+    (task: Task) => task.projectId === project.id && task.status === "Vencida"
+  );
+
+  function handleFilteredTask(filter: string) {
+    if (filter === "Status") {
+      return allTasks;
+    } else if (filter === "Concluída") {
+      return doneTasks;
+    } else if (filter === "Pendente") {
+      return pendingTasks;
+    } else if (filter === "Vencida") {
+      return overdueTasks;
+    }
+  }
+
+  const tasksToDisplay = handleFilteredTask(filteredTask);
 
   function handleCloseDeleteTaskModal() {
     setIsDeleteTaskModalOpen(false);
@@ -94,11 +120,27 @@ export const TasksTable = ({ project, fetch }) => {
                   >
                     Data limite
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-bold uppercase text-gray-500 "
-                  >
-                    Status
+                  <th>
+                    <div>
+                      {
+                        <form>
+                          <select
+                            name="status"
+                            id="status"
+                            className="border-none bg-transparent py-3 text-left text-xs font-bold uppercase text-gray-500"
+                            defaultValue={"Status"}
+                            onChange={(e) => setFilteredTask(e.target.value)}
+                          >
+                            <option value="Status">Status</option>
+                            <option className="" value="Concluída">
+                              Concluída
+                            </option>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Vencida">Vencida</option>
+                          </select>
+                        </form>
+                      }
+                    </div>
                   </th>
                   <th
                     scope="col"
@@ -114,7 +156,7 @@ export const TasksTable = ({ project, fetch }) => {
                   </th>
                 </tr>
               </thead>
-              {filteredTasks.reverse().map((task: Task) => {
+              {tasksToDisplay.reverse().map((task: Task) => {
                 return (
                   <Fragment key={task.id}>
                     <tbody className="divide-y divide-gray-200">
