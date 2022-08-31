@@ -1,7 +1,8 @@
 import Modal from "react-modal";
 import { Fragment, useEffect, useState } from "react";
-import { DeleteTaskModal } from "./";
-import { api } from "../services";
+
+import { api } from "../../services";
+import { DeleteTaskModal, EditTaskModal } from ".";
 
 type Task = {
   id: string;
@@ -16,9 +17,11 @@ type Task = {
 
 export const TasksTable = ({ project, fetch }) => {
   const [isDeleteTaskModalOpen, setIsDeleteTaskModalOpen] = useState(false);
+  const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
   const [fetchData, setFetchData] = useState(false);
   const [selectedTask, setSelectedTask] = useState("");
-  const [tasks, setTask] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [editTask, setEditTask] = useState();
 
   const filteredTasks = tasks.filter(
     (task: Task) => task.projectId === project.id
@@ -31,6 +34,19 @@ export const TasksTable = ({ project, fetch }) => {
   function handleOpenDeleteTaskModal(id: string) {
     setIsDeleteTaskModalOpen(true);
     setSelectedTask(id);
+  }
+
+  function handleCloseEditTaskModal() {
+    setIsEditTaskModalOpen(false);
+  }
+
+  function handleOpenEditTaskModal(task) {
+    setIsEditTaskModalOpen(true);
+    setEditTask(task);
+  }
+
+  function refetchTasks() {
+    setFetchData(!fetchData);
   }
 
   async function handleDeleteTask() {
@@ -46,7 +62,7 @@ export const TasksTable = ({ project, fetch }) => {
   useEffect(() => {
     const fetchTask = async () => {
       const { data } = await api.get(`/task`);
-      setTask(data);
+      setTasks(data);
     };
 
     fetchTask();
@@ -122,7 +138,10 @@ export const TasksTable = ({ project, fetch }) => {
                         <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800">
                           {task.status}
                         </td>
-                        <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+                        <td
+                          className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium"
+                          onClick={() => handleOpenEditTaskModal(task)}
+                        >
                           <a
                             className="text-green-500 hover:text-green-700"
                             href="#"
@@ -161,6 +180,20 @@ export const TasksTable = ({ project, fetch }) => {
         <DeleteTaskModal
           closeModal={handleCloseDeleteTaskModal}
           deleteTask={handleDeleteTask}
+        />
+      </Modal>
+
+      <Modal
+        isOpen={isEditTaskModalOpen}
+        onRequestClose={handleCloseEditTaskModal}
+        overlayClassName="bg-gray-500 bg-opacity-75 fixed inset-0 z-10"
+        className="absolute bottom-0 w-full rounded-md bg-white p-4 md:bottom-auto md:top-1/2 md:left-1/2 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2 md:transform"
+        contentLabel="Edit Task Modal"
+      >
+        <EditTaskModal
+          closeModal={handleCloseEditTaskModal}
+          task={editTask}
+          fetchTasks={refetchTasks}
         />
       </Modal>
     </div>

@@ -10,12 +10,11 @@ import Router from "next/router";
 import {
   DashboardLayout,
   DeleteProjectModal,
-  AddNewTaskModal,
   PrimaryButton,
-  TasksTable,
 } from "../components";
 import { AuthContext } from "../contexts/AuthContext";
 import { api, getAPIClient } from "../services";
+import { AddNewTaskModal, TasksTable } from "../components/tasks";
 
 Modal.setAppElement("#__next");
 
