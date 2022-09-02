@@ -1,10 +1,12 @@
+import Head from "next/head";
+import Link from "next/link";
+import Router from "next/router";
+
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { GetServerSideProps } from "next";
 import { parseCookies, destroyCookie } from "nookies";
-import Head from "next/head";
-import Link from "next/link";
 
 const profile = ["Seu perfil", "Configurações"];
 
@@ -16,6 +18,7 @@ export function DashboardLayout({ children, user, title }) {
   function destroyToken() {
     destroyCookie(undefined, "nextauth.token");
     destroyCookie(undefined, "nextauth.user");
+    Router.push("/");
   }
 
   return (
@@ -92,9 +95,8 @@ export function DashboardLayout({ children, user, title }) {
                               ))}
                               <Menu.Item>
                                 <a
-                                  href="/"
-                                  onClick={() => destroyToken()}
-                                  className="block px-4 py-2 text-sm text-gray-700"
+                                  onClick={destroyToken}
+                                  className="block cursor-pointer px-4 py-2 text-sm text-gray-700"
                                 >
                                   Sair
                                 </a>
@@ -154,8 +156,8 @@ export function DashboardLayout({ children, user, title }) {
                     </a>
                   ))}
                   <a
-                    href="#"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                    className="block cursor-pointer rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                    onClick={() => destroyToken()}
                   >
                     Sair
                   </a>
