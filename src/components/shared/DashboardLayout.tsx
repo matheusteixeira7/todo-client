@@ -6,8 +6,6 @@ import { parseCookies, destroyCookie } from "nookies";
 import Head from "next/head";
 import Link from "next/link";
 
-import { getAPIClient } from "../../services";
-
 const profile = ["Seu perfil", "Configurações"];
 
 function classNames(...classes) {
