@@ -11,7 +11,7 @@ import { DashboardLayout, PrimaryButton } from "../../components/shared";
 import { DeleteProjectModal } from "../../components/projects";
 import { AuthContext } from "../../contexts";
 import { api, getAPIClient } from "../../services";
-import { AddNewTaskModal, TasksTable } from "../../components/tasks";
+import { NewTaskModal, TasksTable } from "../../components/tasks";
 
 Modal.setAppElement("#__next");
 
@@ -256,7 +256,7 @@ const Project = ({ parsedProject }) => {
         className="absolute bottom-0 w-full rounded-md bg-white p-4 md:bottom-auto md:top-1/2 md:left-1/2 md:w-auto md:-translate-x-1/2 md:-translate-y-1/2 md:transform"
         contentLabel="Delete Project Modal"
       >
-        <AddNewTaskModal
+        <NewTaskModal
           closeModal={handleCloseAddNewTaskModal}
           addNewTask={handleAddNewTask}
           projectId={project.id}

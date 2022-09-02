@@ -16,7 +16,7 @@ type Task = {
   updatedAt: Date;
 };
 
-export const AddNewTaskModal = ({ closeModal, addNewTask, projectId }) => {
+export const NewTaskModal = ({ closeModal, addNewTask, projectId }) => {
   const { register, handleSubmit } = useForm();
   const [startDate, setStartDate] = useState(new Date());
 
