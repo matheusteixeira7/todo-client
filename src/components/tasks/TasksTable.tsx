@@ -24,29 +24,13 @@ export const TasksTable = ({ project, fetch }) => {
   const [editTask, setEditTask] = useState();
   const [filteredTask, setFilteredTask] = useState("Status");
 
-  const allTasks = tasks.filter((task: Task) => task.projectId === project.id);
-
-  const doneTasks = tasks.filter(
-    (task: Task) => task.projectId === project.id && task.status === "Concluída"
-  );
-
-  const pendingTasks = tasks.filter(
-    (task: Task) => task.projectId === project.id && task.status === "Pendente"
-  );
-
-  const overdueTasks = tasks.filter(
-    (task: Task) => task.projectId === project.id && task.status === "Vencida"
-  );
-
   function handleFilteredTask(filter: string) {
     if (filter === "Status") {
-      return allTasks;
-    } else if (filter === "Concluída") {
-      return doneTasks;
-    } else if (filter === "Pendente") {
-      return pendingTasks;
-    } else if (filter === "Vencida") {
-      return overdueTasks;
+      return tasks.filter((task: Task) => task.projectId === project.id);
+    } else {
+      return tasks.filter(
+        (task: Task) => task.projectId === project.id && task.status === filter
+      );
     }
   }
 
