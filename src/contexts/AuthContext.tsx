@@ -32,14 +32,13 @@ export function AuthProvider({ children }) {
   const isAuthenticated = !!user;
 
   useEffect(() => {
-    const { 'nextauth.token': token } = parseCookies()
-    const { 'nextauth.user': userData } = parseCookies()
+    const { "nextauth.token": token } = parseCookies();
+    const { "nextauth.user": userData } = parseCookies();
 
     if (token) {
-      setUser(JSON.parse(userData))
+      setUser(JSON.parse(userData));
     }
-
-  }, [])
+  }, []);
 
   async function signIn({ email, password }: SignInData) {
     let user: User = null;
@@ -54,7 +53,7 @@ export function AuthProvider({ children }) {
       token = data.token;
     } catch (error) {
       console.log(error);
-      throw new Error('Credenciais inválidas');
+      throw new Error(error.response.data.message);
     }
 
     setCookie(undefined, "nextauth.token", token, {

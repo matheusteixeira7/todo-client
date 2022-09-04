@@ -17,7 +17,7 @@ export default function Home() {
     try {
       await signIn(data);
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error.message);
     }
   }
 
