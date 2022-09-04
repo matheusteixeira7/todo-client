@@ -52,7 +52,6 @@ export function AuthProvider({ children }) {
       user = data.user;
       token = data.token;
     } catch (error) {
-      console.log(error);
       throw new Error(error.response.data.message);
     }
 
