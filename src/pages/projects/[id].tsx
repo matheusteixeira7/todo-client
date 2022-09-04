@@ -112,7 +112,7 @@ const Project = ({ parsedProject }) => {
       setDisable(true);
       setFetchData(!fetchData);
     } catch (error) {
-      setError(error.message);
+      setError(error.response.data.message);
     }
   }
 
@@ -121,7 +121,7 @@ const Project = ({ parsedProject }) => {
       await api.delete(`/project/${project.id}`);
       Router.push("/projetos");
     } catch (error) {
-      setError(error.message);
+      setError(error.response.data.message);
     }
   }
 
@@ -140,7 +140,7 @@ const Project = ({ parsedProject }) => {
       setFetchTasks(!fetchTasks);
       handleCloseAddNewTaskModal();
     } catch (error) {
-      setError(error.message);
+      setError(error.response.data.message);
     }
   }
 

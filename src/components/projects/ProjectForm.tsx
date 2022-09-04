@@ -39,7 +39,7 @@ export const ProjectForm = ({ updateData }: Props) => {
       setSuccess(`Projeto ${data.name} criado com sucesso!`);
       updateData();
     } catch (error) {
-      setError(error.message);
+      setError(error.response.data.message);
     }
   }
 

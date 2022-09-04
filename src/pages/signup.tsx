@@ -19,7 +19,7 @@ export default function Home() {
       await api.post("/users", data);
       Router.push("/");
     } catch (error) {
-      setError(error.message);
+      setError(error.response.data.message);
     }
   }
 
