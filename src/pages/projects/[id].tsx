@@ -25,7 +25,7 @@ type AddNewTaskProps = {
   name: string;
   responsible: string;
   status: string;
-  finishDate: string;
+  dueDate: string;
   projectId: string;
   createdAt: string;
   updatedAt: string;
@@ -37,7 +37,7 @@ type Task = {
   projectId: string;
   responsible: string;
   status: string;
-  finishDate: Date;
+  dueDate: Date;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -130,7 +130,7 @@ const Project = ({ parsedProject }) => {
       name: data.name,
       responsible: data.responsible,
       status: data.status,
-      finishDate: data.finishDate,
+      dueDate: data.dueDate,
       projectId: project.id,
     };
 

@@ -13,14 +13,14 @@ type Task = {
   projectId: string;
   responsible: string;
   status: string;
-  finishDate: Date;
+  dueDate: Date;
   createdAt: Date;
   updatedAt: Date;
 };
 
 export const EditTaskModal = ({ closeModal, task, fetchTasks }) => {
   const { register, handleSubmit } = useForm();
-  const [startDate, setStartDate] = useState(new Date(task.finishDate));
+  const [startDate, setStartDate] = useState(new Date(task.dueDate));
   const [name, setName] = useState(task.name);
   const [responsible, setResponsible] = useState(task.responsible);
 
@@ -30,7 +30,7 @@ export const EditTaskModal = ({ closeModal, task, fetchTasks }) => {
       projectId: task.projectId,
       responsible: data.responsible,
       status: data.status,
-      finishDate: startDate,
+      dueDate: startDate,
     };
 
     await editTask(sendData);
@@ -123,17 +123,17 @@ export const EditTaskModal = ({ closeModal, task, fetchTasks }) => {
 
         <div className="mt-4">
           <label
-            htmlFor="finishDate"
+            htmlFor="dueDate"
             className="block text-sm font-medium text-gray-700"
           >
             Data limite
           </label>
           <Datepicker
-            {...register("finishDate")}
-            id="finishDate"
-            name="finishDate"
+            {...register("dueDate")}
+            id="dueDate"
+            name="dueDate"
             className="h-full w-full rounded-md border border-transparent border-gray-300 bg-transparent px-3 py-2 text-gray-500 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            placeholderText={task.finishDate}
+            placeholderText={task.dueDate}
             selected={startDate}
             onChange={(date: Date) => setStartDate(date)}
             locale="pt-BR"

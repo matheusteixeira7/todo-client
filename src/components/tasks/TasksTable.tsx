@@ -10,7 +10,7 @@ type Task = {
   projectId: string;
   responsible: string;
   status: string;
-  finishDate: Date;
+  dueDate: Date;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -151,14 +151,11 @@ export const TasksTable = ({ project, fetch }) => {
                           {task.responsible}
                         </td>
                         <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800">
-                          {new Date(task.finishDate).toLocaleDateString(
-                            "pt-BR",
-                            {
-                              day: "2-digit",
-                              month: "2-digit",
-                              year: "numeric",
-                            }
-                          )}
+                          {new Date(task.dueDate).toLocaleDateString("pt-BR", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                          })}
                         </td>
                         <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800">
                           {task.status}

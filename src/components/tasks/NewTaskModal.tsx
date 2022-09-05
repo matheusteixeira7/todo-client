@@ -11,7 +11,7 @@ type Task = {
   projectId: string;
   responsible: string;
   status: string;
-  finishDate: Date;
+  dueDate: Date;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -26,7 +26,7 @@ export const NewTaskModal = ({ closeModal, addNewTask, projectId }) => {
       projectId: projectId,
       responsible: data.responsible,
       status: data.status,
-      finishDate: startDate,
+      dueDate: startDate,
     };
 
     await addNewTask(sendData);
@@ -100,15 +100,15 @@ export const NewTaskModal = ({ closeModal, addNewTask, projectId }) => {
 
         <div className="mt-4">
           <label
-            htmlFor="finishDate"
+            htmlFor="dueDate"
             className="block text-sm font-medium text-gray-700"
           >
             Data limite
           </label>
           <Datepicker
-            {...register("finishDate")}
-            id="finishDate"
-            name="finishDate"
+            {...register("dueDate")}
+            id="dueDate"
+            name="dueDate"
             className="h-full w-full rounded-md border border-transparent border-gray-300 bg-transparent px-3 py-2 text-gray-500 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             placeholderText="Data limite"
             selected={startDate}
