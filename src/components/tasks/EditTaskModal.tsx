@@ -153,7 +153,7 @@ export const EditTaskModal = ({ closeModal, task, fetchTasks }) => {
                 aria-hidden="true"
               />
             </span>
-            Editar
+            Salvar
           </button>
 
           <div
